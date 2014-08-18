@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         version="3.1">
+    <display-name>Travel Plan Guide</display-name>
+    <description>Travel Plan Guide</description>
+
+    <servlet>
+        <servlet-name>test</servlet-name>
+        <servlet-class>kke.travel.Test</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>test</servlet-name>
+        <url-pattern>/test</url-pattern>
+    </servlet-mapping>
+</web-app>

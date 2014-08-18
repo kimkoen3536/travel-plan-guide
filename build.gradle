@@ -1,0 +1,52 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-cargo-plugin:1.5'
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'war'
+apply plugin: 'cargo'
+
+sourceCompatibility = 1.8
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy:2.3.6'
+
+    providedCompile 'org.apache.tomcat:tomcat-servlet-api:8.0.9'
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+cargo {
+
+    containerId = 'tomcat8x'
+    port = 8080
+
+    deployable {
+        context = 'travel-plan-guide'
+    }
+
+    remote {
+        hostname = 'localhost'
+        username = 'manager'
+        password = 'manager'
+
+        containerProperties {
+            property 'cargo.tomcat.ajp.port', 8009
+        }
+    }
+}
+
+cargoDeployRemote.dependsOn assemble
+cargoRedeployRemote.dependsOn assemble
