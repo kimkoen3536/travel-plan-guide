@@ -4,13 +4,23 @@
     <display-name>Travel Plan Guide</display-name>
     <description>Travel Plan Guide</description>
 
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/applicationContext.xml</param-value>
+    </context-param>
+    
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+
     <servlet>
-        <servlet-name>test</servlet-name>
-        <servlet-class>kke.travel.Test</servlet-class>
+        <servlet-name>dragonfly</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>test</servlet-name>
-        <url-pattern>/test</url-pattern>
+        <servlet-name>dragonfly</servlet-name>
+        <url-pattern>*.tpg</url-pattern>
     </servlet-mapping>
 </web-app>
