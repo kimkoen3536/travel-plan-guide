@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id TEXT,
     password TEXT,
@@ -7,6 +8,7 @@ CREATE TABLE users (
     PRIMARY KEY (id)
 );
 
+DROP TABLE IF EXISTS plans;
 CREATE TABLE plans (
     id BIGINT,
     is_public BOOLEAN,
@@ -18,6 +20,7 @@ CREATE TABLE plans (
     PRIMARY KEY (id)
 );
 
+DROP TABLE IF EXISTS places;
 CREATE TABLE places (
     id BIGINT,
     plan_id BIGINT,
@@ -29,6 +32,7 @@ CREATE TABLE places (
     PRIMARY KEY (id)
 );
 
+DROP TABLE IF EXISTS transports;
 CREATE TABLE transports (
     id BIGINT,
     plan_id BIGINT,
@@ -40,6 +44,7 @@ CREATE TABLE transports (
     PRIMARY KEY (id)
 );
 
+DROP TABLE IF EXISTS likes;
 CREATE TABLE likes (
     user_id TEXT,
     plan_id BIGINT
