@@ -37,4 +37,14 @@ class PlanController {
         def view = new MappingJackson2JsonView()
         return view
     }
+
+    @RequestMapping(value = "list", method = RequestMethod.GET)
+    def list(Model model) {
+        def plans = planDao.list(0)
+        model.addAttribute("success", true)
+        model.addAttribute("code", 200)
+        model.addAttribute("message", "OK")
+        model.addAttribute("plans", plans)
+        return new MappingJackson2JsonView()
+    }
 }

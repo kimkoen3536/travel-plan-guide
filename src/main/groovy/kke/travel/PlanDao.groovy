@@ -24,4 +24,26 @@ VALUES (?, ?, ?, ?, ?, ?)"""
         stat.setInt(6, plan.numLikes)
         stat.executeUpdate()
     }
+
+    List<Plan> list(int id) {
+        def conn = dataSource.getConnection()
+        def sql = """
+SELECT id, title, location, start_date, end_date, is_public, num_likes
+FROM plans"""
+        def stat = conn.prepareStatement(sql)
+        def rs = stat.executeQuery()
+        List<Plan> list = []
+        while (rs.next()) {
+            def plan = new Plan()
+            plan.id = rs.getInt("id")
+            plan.title = rs.getString("title")
+            plan.location = rs.getString("location")
+            plan.startDate = rs.getDate("start_date")
+            plan.endDate = rs.getDate("end_date")
+            plan.public_ = rs.getBoolean("is_public")
+            plan.numLikes = rs.getInt("num_likes")
+            list.add(plan)
+        }
+        list
+    }
 }
