@@ -46,6 +46,9 @@
     <orderEntry type="library" exported="" name="Gradle: commons-pool2-2.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: spring-jdbc-4.0.6.RELEASE" level="project" />
     <orderEntry type="library" exported="" name="Gradle: spring-tx-4.0.6.RELEASE" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: jackson-databind-2.4.2" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: jackson-annotations-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: jackson-core-2.4.2" level="project" />
   </component>
 </module>
 
