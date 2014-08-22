@@ -46,4 +46,50 @@ FROM plans"""
         }
         list
     }
+
+    void delete(int id){
+        def conn = dataSource.getConnection()
+        def sql = """
+DELETE FROM plans WHERE id = ?"""
+        def stat = conn.prepareStatement(sql)
+        stat.setInt(1,id)
+        stat.executeUpdate()
+
+    }
+
+    void edit(Plan plan){
+        def conn = dataSource.getConnection()
+        def sql = """
+UPDATE plans SET title = ? , location = ? , start_date = ? , end_date = ? ,
+is_public = ? , num_likes = ? WHERE id = ?"""
+        def stat = conn.prepareStatement(sql)
+        stat.setString(1,plan.title)
+        stat.setString(2,plan.location)
+        stat.setDate(3,new java.sql.Date(plan.startDate.time))
+        stat.setDate(4,new java.sql.Date(plan.endDate.time))
+        stat.setBoolean(5,plan.isPublic_())
+        stat.setInt(6,plan.numLikes)
+        stat.setInt(7,plan.id)
+        stat.executeUpdate()
+    }
+
+    Plan get(int id){
+        def conn = dataSource.getConnection()
+        def sql ="""
+SELECT id, title, location, start_date, end_date, is_public, num_likes FROM plans WHERE id = ?"""
+        def stat = conn.prepareStatement(sql)
+        stat.setInt(1,id)
+        def rs =stat.executeQuery()
+        rs.next()
+        def plan = new Plan()
+        plan.id = rs.getInt("id")
+        plan.title = rs.getString("title")
+        plan.location = rs.getString("location")
+        plan.startDate = rs.getDate("start_date")
+        plan.endDate = rs.getDate("end_date")
+        plan.public_=rs.getBoolean("is_public")
+        plan.numLikes = rs.getInt("num_likes")
+        plan
+
+    }
 }

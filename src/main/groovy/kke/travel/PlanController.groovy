@@ -47,4 +47,39 @@ class PlanController {
         model.addAttribute("plans", plans)
         return new MappingJackson2JsonView()
     }
+
+    @RequestMapping(value = "delete", method = RequestMethod.POST)
+    def delete(Model model, @RequestBody String jsonString) {
+
+        def mapper = new ObjectMapper()
+        def tree = mapper.readTree(jsonString)
+        def id = tree.get("id").asInt()
+        planDao.delete(id)
+        model.addAttribute("success", true)
+        model.addAttribute("code", 200)
+        model.addAttribute("message", "OK")
+        return new MappingJackson2JsonView()
+
+    }
+
+    @RequestMapping(value = "edit", method = RequestMethod.POST)
+    def edit(Model model, @RequestBody String jsonString) {
+
+        def mapper = new ObjectMapper()
+        def plan = mapper.readValue(jsonString, Plan)
+        planDao.edit(plan)
+        model.addAttribute("success", true)
+        model.addAttribute("code", 200)
+        model.addAttribute("message", "ok")
+        return new MappingJackson2JsonView()
+    }
+
+    @RequestMapping(value = "get",method = RequestMethod.GET)
+    def get(Model model,@RequestBody String jsonString) {
+        def mapper = new ObjectMapper()
+        def tree = mapper.readTree(jsonString)
+        def id = tree.get("id").asInt()
+
+    }
+
 }
