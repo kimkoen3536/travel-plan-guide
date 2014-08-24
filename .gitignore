@@ -1,3 +1,4 @@
 build
 .gradle
 .idea/workspace.xml
+src/main/resources/jdbc.properties

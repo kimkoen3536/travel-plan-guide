@@ -6,6 +6,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView
 
 import javax.annotation.Resource
@@ -75,10 +76,12 @@ class PlanController {
     }
 
     @RequestMapping(value = "get",method = RequestMethod.GET)
-    def get(Model model,@RequestBody String jsonString) {
-        def mapper = new ObjectMapper()
-        def tree = mapper.readTree(jsonString)
-        def id = tree.get("id").asInt()
+    def get(Model model,@RequestParam int id) {
+        planDao.get(id)
+        model.addAttribute("success",true)
+        model.addAttribute("code",200)
+        model.addAttribute("message","OK")
+        return  new MappingJackson2JsonView()
 
     }
 
