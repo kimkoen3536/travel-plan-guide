@@ -77,10 +77,11 @@ class PlanController {
 
     @RequestMapping(value = "get",method = RequestMethod.GET)
     def get(Model model,@RequestParam int id) {
-        planDao.get(id)
+        def plan = planDao.get(id)
         model.addAttribute("success",true)
         model.addAttribute("code",200)
         model.addAttribute("message","OK")
+        model.addAttribute("plan",plan)
         return  new MappingJackson2JsonView()
 
     }
