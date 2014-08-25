@@ -24,13 +24,7 @@ class PlanController {
     @RequestMapping(value = "add", method = RequestMethod.POST)
     def add(Model model, @RequestBody String jsonString) {
         def mapper = new ObjectMapper()
-        def tree = mapper.readTree(jsonString)
-        def plan = new Plan();
-        plan.title = tree.get("title").asText("")
-        plan.location = tree.get("location").asText("")
-        plan.startDate = df.parse(tree.get("start_date").asText("2000-01-01"))
-        plan.endDate = df.parse(tree.get("end_date").asText("2000-01-02"))
-        plan.public_ = tree.get("is_public").asBoolean()
+        def plan = mapper.readValue(jsonString,Plan)
         planDao.add(plan);
         model.addAttribute("success", true)
         model.addAttribute("code", 200)

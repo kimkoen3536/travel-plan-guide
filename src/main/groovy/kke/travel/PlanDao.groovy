@@ -23,6 +23,8 @@ VALUES (?, ?, ?, ?, ?, ?)"""
         stat.setBoolean(5, plan.public_)
         stat.setInt(6, plan.numLikes)
         stat.executeUpdate()
+        stat.close()
+        conn.close()
     }
 
     List<Plan> list(int id) {
@@ -44,6 +46,9 @@ FROM plans"""
             plan.numLikes = rs.getInt("num_likes")
             list.add(plan)
         }
+        rs.close()
+        stat.close()
+        conn.close()
         list
     }
 
@@ -54,7 +59,8 @@ DELETE FROM plans WHERE id = ?"""
         def stat = conn.prepareStatement(sql)
         stat.setInt(1, id)
         stat.executeUpdate()
-
+        stat.close()
+        conn.close()
     }
 
     void edit(Plan plan) {
@@ -71,6 +77,8 @@ is_public = ? , num_likes = ? WHERE id = ?"""
         stat.setInt(6, plan.numLikes)
         stat.setInt(7, plan.id)
         stat.executeUpdate()
+        stat.close()
+        conn.close()
     }
 
     Plan get(int id) {
@@ -89,7 +97,9 @@ SELECT id, title, location, start_date, end_date, is_public, num_likes FROM plan
         plan.endDate = rs.getDate("end_date")
         plan.public_ = rs.getBoolean("is_public")
         plan.numLikes = rs.getInt("num_likes")
+        rs.close()
+        stat.close()
+        conn.close()
         plan
-
     }
 }
