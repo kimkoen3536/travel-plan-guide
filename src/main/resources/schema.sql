@@ -1,11 +1,12 @@
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id INTEGER PRIMARY KEY,
-    account_name TEXT,
+    email TEXT,
     password TEXT,
+    account_name TEXT,
     name TEXT,
-    birth_date DATE,
-    email TEXT
+    birth_date DATE
+
 );
 
 DROP TABLE IF EXISTS plans;
