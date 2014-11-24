@@ -1,6 +1,8 @@
 package kke.travel
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.RequestBody
@@ -16,6 +18,8 @@ import java.text.SimpleDateFormat
 @Controller
 @RequestMapping("plan")
 class PlanController {
+    private Logger logger = LoggerFactory.getLogger(PlanController)
+
     private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd")
 
     @Resource
@@ -35,6 +39,7 @@ class PlanController {
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
     def list(Model model) {
+        logger.debug("aaa bbb ccc ddd eee fff ggg")
         def plans = planDao.list(0)
         model.addAttribute("success", true)
         model.addAttribute("code", 200)

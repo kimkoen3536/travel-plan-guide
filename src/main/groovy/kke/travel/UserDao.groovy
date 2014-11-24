@@ -1,11 +1,14 @@
 package kke.travel
 
+import org.springframework.stereotype.Repository
+
 import javax.annotation.Resource
 import javax.sql.DataSource
 
 /**
  * Created by K.eun on 2014-11-19.
  */
+@Repository
 class UserDao {
     @Resource
     DataSource dataSource;
