@@ -1,6 +1,7 @@
 package kke.travel
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import oracle.jrockit.jfr.events.RequestableEventEnvironment
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -15,21 +16,24 @@ import javax.annotation.Resource
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 
+/**
+ * Created by K.eun on 2014-12-04.
+ */
 @Controller
-@RequestMapping("transport")
-class TransportController {
-    private Logger logger = LoggerFactory.getLogger(TransportController)
+@RequestMapping("place")
+class PlaceController {
+    private Logger logger = LoggerFactory.getLogger(PlaceController)
     private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd")
 
 
     @Resource
-    private TransportDao transportDao;
+    private PlaceDao placeDao;
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     def add(Model model, @RequestBody String jsonString) {
         def mapper = new ObjectMapper()
-        def transport = mapper.readValue(jsonString,Transport)
-        transportDao.add(transport);
+        def place = mapper.readValue(jsonString,Place)
+        placeDao.add(place);
         model.addAttribute("success", true)
         model.addAttribute("code", 200)
         model.addAttribute("message", "OK")
@@ -40,11 +44,11 @@ class TransportController {
     @RequestMapping(value = "list", method = RequestMethod.GET)
     def list(Model model) {
         logger.debug("aaa bbb ccc ddd eee fff ggg")
-        def transports = transportDao.list(0)
+        def places = placeDao.list(0)
         model.addAttribute("success", true)
         model.addAttribute("code", 200)
         model.addAttribute("message", "OK")
-        model.addAttribute("transports", transports)
+        model.addAttribute("places", places)
         return new MappingJackson2JsonView()
     }
 
@@ -54,7 +58,7 @@ class TransportController {
         def mapper = new ObjectMapper()
         def tree = mapper.readTree(jsonString)
         def id = tree.get("id").asInt()
-        transportDao.delete(id)
+        placeDao.delete(id)
         model.addAttribute("success", true)
         model.addAttribute("code", 200)
         model.addAttribute("message", "OK")
@@ -66,8 +70,8 @@ class TransportController {
     def edit(Model model, @RequestBody String jsonString) {
 
         def mapper = new ObjectMapper()
-        def plan = mapper.readValue(jsonString, Plan)
-        transportDao.edit(plan)
+        def place = mapper.readValue(jsonString, Place)
+        placeDao.edit(place)
         model.addAttribute("success", true)
         model.addAttribute("code", 200)
         model.addAttribute("message", "ok")
@@ -76,13 +80,15 @@ class TransportController {
 
     @RequestMapping(value = "get",method = RequestMethod.GET)
     def get(Model model,@RequestParam int id) {
-        def transport = transportDao.get(id)
+        def place = placeDao.get(id)
         model.addAttribute("success",true)
         model.addAttribute("code",200)
         model.addAttribute("message","OK")
-        model.addAttribute("transport",transport)
+        model.addAttribute("place",place)
         return  new MappingJackson2JsonView()
 
     }
 
 }
+
+

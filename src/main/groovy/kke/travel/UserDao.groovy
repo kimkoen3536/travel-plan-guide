@@ -67,7 +67,7 @@ DELETE FROM users WHERE id = ?"""
     void edit(User user) {
         def conn = dataSource.getConnection()
         def sql = """
-UPDATE users SET email = ? , password = ? , account_name = ? , name = ? , birth_date = ? ,
+UPDATE users SET email = ? , password = ? , account_name = ? , name = ? , birth_date = ?
 WHERE id = ?"""
         def stat = conn.prepareStatement(sql)
         stat.setString(1, user.email)

@@ -24,8 +24,12 @@ DROP TABLE IF EXISTS places;
 CREATE TABLE places (
     id INTEGER PRIMARY KEY,
     plan_id INTEGER,
+    plan_date DATE,
     name TEXT,
     address TEXT,
+    road_address TEXT,
+    map_x INTEGER,
+    map_y INTEGER,
     type TEXT,
     picture BLOB,
     memo TEXT
@@ -35,10 +39,11 @@ DROP TABLE IF EXISTS transports;
 CREATE TABLE transports (
     id INTEGER PRIMARY KEY,
     plan_id INTEGER,
+    plan_date DATE,
     type TEXT,
-    source TEXT,
+    departure TEXT,
     destination TEXT,
-    duration_min INTEGER,
+    duration INTEGER,
     memo TEXT
 );
 

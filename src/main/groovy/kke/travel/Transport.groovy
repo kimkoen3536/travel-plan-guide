@@ -3,11 +3,13 @@ package kke.travel
 class Transport {
     int id;
 
-    int pid;
+    int plan_id;
+
+    Date plan_date;
 
     String type;
 
-    String source;
+    String departure;
 
     String destination;
 
