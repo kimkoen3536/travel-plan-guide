@@ -79,8 +79,22 @@ class PlaceController {
     }
 
     @RequestMapping(value = "get",method = RequestMethod.GET)
-    def get(Model model,@RequestParam int id) {
-        def place = placeDao.get(id)
+    def get(Model model,@RequestParam int plan_id, @RequestParam String plan_date) {
+        logger.debug("plan_id  : " + plan_id);
+        logger.debug("plan_date : " + plan_date);
+        println("plan_date : " + plan_date);
+        def place = placeDao.get(plan_id, plan_date);
+        model.addAttribute("success",true)
+        model.addAttribute("code",200)
+        model.addAttribute("message","OK")
+        model.addAttribute("place",place)
+        return  new MappingJackson2JsonView()
+
+    }
+
+    @RequestMapping(value = "get2",method = RequestMethod.GET)
+    def get2(Model model,@RequestParam int id) {
+        def place = placeDao.get2(id)
         model.addAttribute("success",true)
         model.addAttribute("code",200)
         model.addAttribute("message","OK")

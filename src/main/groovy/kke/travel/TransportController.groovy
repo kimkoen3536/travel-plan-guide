@@ -75,8 +75,9 @@ class TransportController {
     }
 
     @RequestMapping(value = "get",method = RequestMethod.GET)
-    def get(Model model,@RequestParam int id) {
-        def transport = transportDao.get(id)
+    def get(Model model,@RequestParam int plan_id) {
+        def transport = transportDao.get(plan_id)
+
         model.addAttribute("success",true)
         model.addAttribute("code",200)
         model.addAttribute("message","OK")

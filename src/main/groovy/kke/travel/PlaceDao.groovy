@@ -1,9 +1,11 @@
 package kke.travel
 
+//import javafx.scene.input.DataFormat
 import org.springframework.stereotype.Repository
 
 import javax.annotation.Resource
 import javax.sql.DataSource
+import java.text.SimpleDateFormat
 
 /**
  * Created by K.eun on 2014-12-03.
@@ -21,6 +23,8 @@ INSERT INTO places (plan_id, plan_date, name, address,road_address, map_x, map_y
 VALUES (?,? ,?, ?, ?, ?, ?, ?, ?, ?)"""
             def stat = conn.prepareStatement(sql)
             stat.setInt(1,place.plan_id)
+            System.out.println(" date1 :::::: " + place.plan_date);
+            System.out.println(" date2 :::::: " + place.plan_date.time);
             stat.setDate(2, new java.sql.Date(place.plan_date.time))
             stat.setString(3, place.name)
             stat.setString(4, place.address)
@@ -98,14 +102,45 @@ WHERE id = ?"""
             conn.close()
         }
 
-        Place get(int id) {
+        List<Place> get(int plan_id, String get_plan_date) {
             def conn = dataSource.getConnection()
             def sql = """
-SELECT id, plan_id, plan_date, name, address, road_address, map_x, map_y, type, picture, memo FROM places WHERE id = ?"""
+SELECT id, plan_id, plan_date, name, address, road_address, map_x, map_y, type FROM places WHERE plan_id = ? and plan_date = ?"""
             def stat = conn.prepareStatement(sql)
-            stat.setInt(1, id)
+
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(get_plan_date)
+
+            stat.setInt(1, plan_id)
+            stat.setLong(2, date.time)
             def rs = stat.executeQuery()
-            rs.next()
+            List<Place> places = []
+            while(rs.next()) {
+                def place = new Place()
+                place.id = rs.getInt("id")
+                place.plan_id = rs.getInt("plan_id")
+                place.plan_date = rs.getDate("plan_date")
+                place.name = rs.getString("name")
+                place.address = rs.getString("address")
+                place.road_address = rs.getString("road_address")
+                place.map_x = rs.getInt("map_x")
+                place.map_y = rs.getInt("map_y")
+                place.type = rs.getString("type")
+                places.add(place)
+            }
+            rs.close()
+            stat.close()
+            conn.close()
+            places
+        }
+
+    Place get2(int id) {
+        def conn = dataSource.getConnection()
+        def sql = """
+SELECT id, plan_id, plan_date, name, address, road_address, map_x, map_y, type, memo, picture FROM places WHERE id = ?"""
+        def stat = conn.prepareStatement(sql)
+        stat.setInt(1, id)
+        def rs = stat.executeQuery()
+        rs.next()
             def place = new Place()
             place.id = rs.getInt("id")
             place.plan_id = rs.getInt("plan_id")
@@ -114,14 +149,16 @@ SELECT id, plan_id, plan_date, name, address, road_address, map_x, map_y, type, 
             place.address = rs.getString("address")
             place.road_address = rs.getString("road_address")
             place.map_x = rs.getInt("map_x")
-            place.map_y =rs.getInt("map_y")
+            place.map_y = rs.getInt("map_y")
             place.type = rs.getString("type")
-            place.picture = rs.getBytes("picture")
             place.memo = rs.getString("memo")
-            rs.close()
-            stat.close()
-            conn.close()
-            place
-        }
+            place.picture = rs.getBytes("picture")
+
+
+        rs.close()
+        stat.close()
+        conn.close()
+        place
+    }
     }
 
