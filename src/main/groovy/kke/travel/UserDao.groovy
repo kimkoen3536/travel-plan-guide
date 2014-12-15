@@ -29,15 +29,14 @@ VALUES (?, ?, ?, ?, ?)"""
         conn.close()
     }
 
-    List<User> list(int id) {
+    User list(String userId) {
         def conn = dataSource.getConnection()
         def sql = """
 SELECT id, email, password,account_name, name, birth_date
-FROM users"""
+FROM users where email = ?"""
         def stat = conn.prepareStatement(sql)
+        stat.setString(1, userId);
         def rs = stat.executeQuery()
-        List<User> list = []
-        while (rs.next()) {
             def user = new User()
             user.id = rs.getInt("id")
             user.email = rs.getString("email")
@@ -45,12 +44,10 @@ FROM users"""
             user.accountName = rs.getString("account_name")
             user.name = rs.getString("name")
             user.birthDate = rs.getDate("birth_date")
-            list.add(user)
-        }
         rs.close()
         stat.close()
         conn.close()
-        list
+        user
     }
 
     void delete(int id) {

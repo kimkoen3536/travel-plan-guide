@@ -38,9 +38,9 @@ class PlanController {
     }
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
-    def list(Model model) {
+    def list(Model model, @RequestParam int user_id) {
         logger.debug("aaa bbb ccc ddd eee fff ggg")
-        def plans = planDao.list(0)
+        def plans = planDao.list(user_id)
         model.addAttribute("success", true)
         model.addAttribute("code", 200)
         model.addAttribute("message", "OK")

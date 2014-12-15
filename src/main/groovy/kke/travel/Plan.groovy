@@ -3,6 +3,8 @@ package kke.travel
 class Plan {
     int id;
 
+    int user_id
+
     String accountName;
 
     String title;

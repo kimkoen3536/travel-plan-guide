@@ -13,26 +13,29 @@ class PlanDao {
     void add(Plan plan) {
         def conn = dataSource.getConnection()
         def sql = """
-INSERT INTO plans (title, location, start_date, end_date, is_public, num_likes)
-VALUES (?, ?, ?, ?, ?, ?)"""
+INSERT INTO plans (user_id, account_name, title, location, start_date, end_date, is_public, num_likes)
+VALUES (?,?,?, ?, ?, ?, ?, ?)"""
         def stat = conn.prepareStatement(sql)
-        stat.setString(1, plan.title)
-        stat.setString(2, plan.location)
-        stat.setDate(3, new java.sql.Date(plan.startDate.time))
-        stat.setDate(4, new java.sql.Date(plan.endDate.time))
-        stat.setBoolean(5, plan.public_)
-        stat.setInt(6, plan.numLikes)
+        stat.setInt(1,plan.user_id)
+        stat.setString(2,plan.accountName)
+        stat.setString(3, plan.title)
+        stat.setString(4, plan.location)
+        stat.setDate(5, new java.sql.Date(plan.startDate.time))
+        stat.setDate(6, new java.sql.Date(plan.endDate.time))
+        stat.setBoolean(7, plan.public_)
+        stat.setInt(8, plan.numLikes)
         stat.executeUpdate()
         stat.close()
         conn.close()
     }
 
-    List<Plan> list(int id) {
+    List<Plan> list(int user_id) {
         def conn = dataSource.getConnection()
         def sql = """
 SELECT id, title, location, start_date, end_date, is_public, num_likes
-FROM plans"""
+FROM plans where user_id = ?"""
         def stat = conn.prepareStatement(sql)
+        stat.setInt(1, user_id)
         def rs = stat.executeQuery()
         List<Plan> list = []
         while (rs.next()) {

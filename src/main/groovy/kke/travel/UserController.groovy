@@ -34,12 +34,12 @@ class UserController {
     }
 
     @RequestMapping(value = "list", method = RequestMethod.GET)
-    def list(Model model) {
-        def users = userDao.list(0)
+    def list(Model model, @RequestParam String userId) {
+        def users = userDao.list(userId)
         model.addAttribute("success", true)
         model.addAttribute("code", 200)
         model.addAttribute("message", "OK")
-        model.addAttribute("users", users)
+        model.addAttribute("userInfo", users)
         return new MappingJackson2JsonView()
     }
 
