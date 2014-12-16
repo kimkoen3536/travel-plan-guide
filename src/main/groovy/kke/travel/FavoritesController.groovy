@@ -1,6 +1,7 @@
 package kke.travel
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import oracle.jrockit.jfr.events.RequestableEventEnvironment
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -15,21 +16,25 @@ import javax.annotation.Resource
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 
-@Controller
-@RequestMapping("plan")
-class PlanController {
-    private Logger logger = LoggerFactory.getLogger(PlanController)
 
+/**
+ * Created by K.eun on 2014-12-16.
+ */
+
+@Controller
+@RequestMapping("favorites")
+class FavoritesController {
+    private Logger logger = LoggerFactory.getLogger(FavoritesController)
     private static DateFormat df = new SimpleDateFormat("yyyy-MM-dd")
 
     @Resource
-    private PlanDao planDao;
+    private FavoritesDao favoritesDao;
 
     @RequestMapping(value = "add", method = RequestMethod.POST)
     def add(Model model, @RequestBody String jsonString) {
         def mapper = new ObjectMapper()
-        def plan = mapper.readValue(jsonString,Plan)
-        planDao.add(plan);
+        def Favorites = mapper.readValue(jsonString,Favorites)
+        favoritesDao.add(Favorites);
         model.addAttribute("success", true)
         model.addAttribute("code", 200)
         model.addAttribute("message", "OK")
@@ -37,34 +42,14 @@ class PlanController {
         return view
     }
 
-    @RequestMapping(value = "list", method = RequestMethod.GET)
-    def list(Model model, @RequestParam int user_id) {
-        logger.debug("aaa bbb ccc ddd eee fff ggg")
-        def plans = planDao.list(user_id)
-        model.addAttribute("success", true)
-        model.addAttribute("code", 200)
-        model.addAttribute("message", "OK")
-        model.addAttribute("plans", plans)
-        return new MappingJackson2JsonView()
-    }
-
-    @RequestMapping(value = "list2", method = RequestMethod.GET)
-    def list2(Model model) {
-        def plans = planDao.list2(0)
-        model.addAttribute("success", true)
-        model.addAttribute("code", 200)
-        model.addAttribute("message", "OK")
-        model.addAttribute("plans", plans)
-        return new MappingJackson2JsonView()
-    }
-
     @RequestMapping(value = "delete", method = RequestMethod.POST)
     def delete(Model model, @RequestBody String jsonString) {
 
         def mapper = new ObjectMapper()
         def tree = mapper.readTree(jsonString)
-        def id = tree.get("id").asInt()
-        planDao.delete(id)
+        def  user_id = tree.get("user_id").asInt()
+        def  plan_id = tree.get("plan_id").asInt()
+        favoritesDao.delete(user_id, plan_id)
         model.addAttribute("success", true)
         model.addAttribute("code", 200)
         model.addAttribute("message", "OK")
@@ -72,26 +57,24 @@ class PlanController {
 
     }
 
-    @RequestMapping(value = "edit", method = RequestMethod.POST)
-    def edit(Model model, @RequestBody String jsonString) {
-
-        def mapper = new ObjectMapper()
-        def plan = mapper.readValue(jsonString, Plan)
-        planDao.edit(plan)
-        model.addAttribute("success", true)
-        model.addAttribute("code", 200)
-        model.addAttribute("message", "ok")
-        return new MappingJackson2JsonView()
-    }
-
     @RequestMapping(value = "get",method = RequestMethod.GET)
-    def get(Model model,@RequestParam int id) {
-        def plan = planDao.get(id)
+    def get(Model model,@RequestParam int user_id, @RequestParam int plan_id) {
+        def favorites = favoritesDao.get(user_id, plan_id)
         model.addAttribute("success",true)
         model.addAttribute("code",200)
         model.addAttribute("message","OK")
-        model.addAttribute("plan",plan)
+        model.addAttribute("favorites",favorites)
         return  new MappingJackson2JsonView()
+    }
+
+    @RequestMapping(value = "list", method = RequestMethod.GET)
+    def list(Model model, @RequestParam int user_id) {
+        def favorites = favoritesDao.list(user_id)
+        model.addAttribute("success", true)
+        model.addAttribute("code", 200)
+        model.addAttribute("message", "OK")
+        model.addAttribute("favorites", favorites)
+        return new MappingJackson2JsonView()
     }
 
 }

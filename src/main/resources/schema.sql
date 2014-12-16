@@ -13,7 +13,7 @@ DROP TABLE IF EXISTS plans;
 CREATE TABLE plans (
     id INTEGER PRIMARY KEY,
     user_id int,
-    account_name Text,
+    account_name TEXT,
     is_public BOOLEAN,
     title TEXT,
     start_date DATE,
