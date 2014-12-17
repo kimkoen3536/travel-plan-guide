@@ -48,8 +48,9 @@ class FavoritesController {
         def mapper = new ObjectMapper()
         def tree = mapper.readTree(jsonString)
         def  user_id = tree.get("user_id").asInt()
-        def  plan_id = tree.get("plan_id").asInt()
-        favoritesDao.delete(user_id, plan_id)
+        def  f_plan_id = tree.get("favor_plan_id").asInt()
+        def  f_user_id = tree.get("favor_user_id").asInt()
+        favoritesDao.delete(user_id, f_plan_id, f_user_id)
         model.addAttribute("success", true)
         model.addAttribute("code", 200)
         model.addAttribute("message", "OK")
@@ -58,8 +59,8 @@ class FavoritesController {
     }
 
     @RequestMapping(value = "get",method = RequestMethod.GET)
-    def get(Model model,@RequestParam int user_id, @RequestParam int plan_id) {
-        def favorites = favoritesDao.get(user_id, plan_id)
+    def get(Model model,@RequestParam int user_id, @RequestParam int favor_plan_id, @RequestParam int favor_user_id) {
+        def favorites = favoritesDao.get(user_id, favor_plan_id, favor_user_id)
         model.addAttribute("success",true)
         model.addAttribute("code",200)
         model.addAttribute("message","OK")

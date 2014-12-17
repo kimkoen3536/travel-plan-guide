@@ -6,5 +6,7 @@ package kke.travel
 class Favorites {
     int user_id;
 
-    int plan_id;
+    int favor_plan_id;
+
+    int favor_user_id;
 }
