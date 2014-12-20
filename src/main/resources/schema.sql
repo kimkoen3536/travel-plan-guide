@@ -52,5 +52,6 @@ CREATE TABLE transports (
 DROP TABLE IF EXISTS likes;
 CREATE TABLE likes (
     user_id TEXT,
-    plan_id BIGINT
+    plan_id BIGINT,
+    "f_user_id" BIGINT DEFAULT null
 );
