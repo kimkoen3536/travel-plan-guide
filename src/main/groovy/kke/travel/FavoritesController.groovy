@@ -78,4 +78,17 @@ class FavoritesController {
         return new MappingJackson2JsonView()
     }
 
+    @RequestMapping(value = "delete2", method = RequestMethod.POST)
+    def delete2(Model model, @RequestBody String jsonString) {
+
+        def mapper = new ObjectMapper()
+        def tree = mapper.readTree(jsonString)
+        def  plan_id = tree.get("plan_id").asInt()
+        favoritesDao.delete2(plan_id)
+        model.addAttribute("success", true)
+        model.addAttribute("code", 200)
+        model.addAttribute("message", "OK")
+        return new MappingJackson2JsonView()
+
+    }
 }

@@ -49,8 +49,8 @@ class PlanController {
     }
 
     @RequestMapping(value = "list2", method = RequestMethod.GET)
-    def list2(Model model) {
-        def plans = planDao.list2(0)
+    def list2(Model model, @RequestParam int user_id) {
+        def plans = planDao.list2(user_id)
         model.addAttribute("success", true)
         model.addAttribute("code", 200)
         model.addAttribute("message", "OK")
@@ -94,4 +94,13 @@ class PlanController {
         return  new MappingJackson2JsonView()
     }
 
+    @RequestMapping(value = "search",method = RequestMethod.GET)
+    def get(Model model,@RequestParam String query) {
+        def plan = planDao.search(query);
+        model.addAttribute("success",true)
+        model.addAttribute("code",200)
+        model.addAttribute("message","OK")
+        model.addAttribute("plan",plan)
+        return  new MappingJackson2JsonView()
+    }
 }

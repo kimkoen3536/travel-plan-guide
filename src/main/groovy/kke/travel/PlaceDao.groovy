@@ -160,5 +160,16 @@ SELECT id, plan_id, plan_date, name, address, road_address, map_x, map_y, type, 
         conn.close()
         place
     }
+
+    void delete2(int id) {
+        def conn = dataSource.getConnection()
+        def sql = """
+DELETE FROM places WHERE plan_id = ?"""
+        def stat = conn.prepareStatement(sql)
+        stat.setInt(1, id)
+        stat.executeUpdate()
+        stat.close()
+        conn.close()
     }
+}
 

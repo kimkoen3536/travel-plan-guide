@@ -66,6 +66,20 @@ class PlaceController {
 
     }
 
+    @RequestMapping(value = "delete2", method = RequestMethod.POST)
+    def delete2(Model model, @RequestBody String jsonString) {
+
+        def mapper = new ObjectMapper()
+        def tree = mapper.readTree(jsonString)
+        def id = tree.get("id").asInt()
+        placeDao.delete2(id)
+        model.addAttribute("success", true)
+        model.addAttribute("code", 200)
+        model.addAttribute("message", "OK")
+        return new MappingJackson2JsonView()
+
+    }
+
     @RequestMapping(value = "edit", method = RequestMethod.POST)
     def edit(Model model, @RequestBody String jsonString) {
 

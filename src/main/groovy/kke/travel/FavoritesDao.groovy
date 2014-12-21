@@ -89,4 +89,15 @@ FROM likes like, plans plan WHERE like.user_id = ? and like.f_user_id = plan.use
         conn.close()
         list
     }
+
+    void delete2(int plan_id) {
+        def conn = dataSource.getConnection()
+        def sql = """
+DELETE FROM likes WHERE plan_id = ?"""
+        def stat = conn.prepareStatement(sql)
+        stat.setInt(1, plan_id)
+        stat.executeUpdate()
+        stat.close()
+        conn.close()
+    }
 }
